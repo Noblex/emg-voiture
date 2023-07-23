@@ -14,7 +14,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Récupérer le code depuis votre dépôt GitHub
-                git 'git url path'
+                git 'https://github.com/Noblex/carcrud'
             }
         }
 
