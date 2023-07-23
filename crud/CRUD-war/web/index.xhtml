@@ -1,0 +1,87 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>CRUD</title>
+    </h:head>
+    <h:body>
+        <h1>CRUD</h1>
+        <h:form>
+            <h:panelGrid columns="12" cellpadding="5">
+                <h:outputText value="Name " />
+                <p:inputText value="#{carController.name}"/>
+
+                <h:outputText value="Author " />
+                <p:inputText value="#{carController.author}" />
+
+                <h:outputText value="Category " />
+                <p:inputText value="#{carController.category}"/>
+
+                <h:outputText value="Year " />
+                <p:inputText value="#{carController.year}"/>
+
+                <h:outputText value="Price " />
+                <p:inputText value="#{carController.price}"/>
+
+                <p:commandButton value="Add" icon="fa fa-fw fa-plus" action="#{carController.createCar()}"/>
+            </h:panelGrid>
+        </h:form>
+
+        <h:form  id="form">
+            <p:dataTable value="#{carController.getAllCars()}" var="car" style="margin: 2em;" rowKey="#{car.id}">
+                <p:column headerText="Name">
+                    <h:outputText value="#{car.name}"/>
+                </p:column>
+
+                <p:column headerText="Year">
+                    <h:outputText value="#{car.year}"/>
+                </p:column>
+
+                <p:column headerText="Author">
+                    <h:outputText value="#{car.author}"/>
+                </p:column>
+
+                <p:column headerText="Category">
+                    <h:outputText value="#{car.category}"/>
+                </p:column>
+
+                <p:column headerText="Price">
+                    <h:outputText value="$#{car.price}"/>
+                </p:column>
+
+                <p:column style="width:100px;text-align: center">
+                    <p:commandButton icon="fa fa-pencil" update=":form:carEdit" oncomplete="PF('editDialog').show()">
+                        <f:setPropertyActionListener value="#{car}" target="#{carController.selectedCar}"/>
+                    </p:commandButton>
+                    <p:commandButton action="#{carController.deleteCar(car)}" icon="fa fa-trash"></p:commandButton>
+                </p:column>
+            </p:dataTable>
+
+            <p:dialog header="Edit Car" widgetVar="editDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="carEdit" style="text-align:center;">
+                    <p:panelGrid  columns="2" rendered="#{not empty carController.selectedCar}" columnClasses="label,value">
+
+                        <h:outputText value="Name: " />
+                        <p:inputText value="#{carController.selectedCar.name}" />
+
+                        <h:outputText value="Category: " />
+                        <p:inputText value="#{carController.selectedCar.category}" />
+
+                        <h:outputText value="Author: " />
+                        <p:inputText value="#{carController.selectedCar.author}"/>
+
+                        <h:outputText value="Price: $" />
+                        <p:inputText value="#{carController.selectedCar.price}" />
+
+                        <h:outputText value="Year: " />
+                        <p:inputText value="#{carController.selectedCar.year}" />
+                    </p:panelGrid>
+
+                    <p:commandButton value="Update" icon="fa fa-fw fa-pencil" action="#{carController.updateCar()}"/>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+    </h:body>
+</html>
+
